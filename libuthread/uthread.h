@@ -1,6 +1,7 @@
 #ifndef _UTHREAD_H
 #define _UTHREAD_H
 
+
 /*
  * uthread_t - Thread identifier (TID) type
  *
@@ -102,5 +103,15 @@ void uthread_exit(int retval);
  * is already being joined. 0 otherwise.
  */
 int uthread_join(uthread_t tid, int *retval);
+
+//TCB struct: contains all of TCB's nessesary info
+struct TCB {
+  uthread_t threadID;              //thread ID (TID)
+  uthread_ctx_t *threadctx;        //thread's context
+  void *stackptr;                  //stack pointer
+  uthread_func_t threatFunc;       //thread's function
+  int threadstatus;                //thread status (ready, running or blocked)
+  //plus more stuff that will be added later
+}
 
 #endif /* _THREAD_H */

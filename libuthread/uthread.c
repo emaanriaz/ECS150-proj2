@@ -12,10 +12,13 @@
 
 /* TODO */
 
-int uthread_start(int preempt)
-{
-	/* TODO */
+int uthread_start(int preempt) {
+	
+  if () {      //if start succeeds
+    return 0;
+  } else
 	return -1;
+  /* TODO */
 }
 
 int uthread_stop(void)
@@ -24,14 +27,15 @@ int uthread_stop(void)
 	return -1;
 }
 
-int uthread_create(uthread_func_t func)
-{
-	/* TODO */
+int uthread_create(uthread_func_t func) {
+	
 	return -1;
+	/* TODO */
 }
 
-void uthread_yield(void)
-{
+void uthread_yield(void) {
+  //yield condition:
+  uthread_ctx_switch(*prev,  *next);    //both uthread_ctx_t
 	/* TODO */
 }
 
@@ -41,14 +45,17 @@ uthread_t uthread_self(void)
 	return -1;
 }
 
-void uthread_exit(int retval)
-{
+void uthread_exit(int retval) {
 	/* TODO */
 }
 
-int uthread_join(uthread_t tid, int *retval)
-{
-	/* TODO */
+int uthread_join(uthread_t tid, int *retval) {
+  while (1) {          //work in progress
+    if () {
 	return -1;
+    } else {
+      yield();
+    }
+		/* TODO */
 }
 
