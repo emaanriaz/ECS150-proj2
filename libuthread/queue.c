@@ -4,10 +4,10 @@
 #include <string.h>
 #include "queue.h"
 
-struct node{
+typedef struct node{
     void *data;
     struct node *next, *prev;
-} typedef node;
+} node;
 
 struct queue {
     node *head;
