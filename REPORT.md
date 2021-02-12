@@ -10,7 +10,7 @@ applications to create and run independent threads concurrently.
 The implementation of the program follows three steps:
 
 1. Creating the queue
-2. Thread management
+2. Thread management (libuthread)
 3. Preemption 
 
 ### Creating the queue
@@ -24,8 +24,13 @@ previous nodes in the queue.
 We chose this data structure because it allows us to dynamically allocate memory and perform
 all operations, except for iterate and delete, in O(1). 
 
+### Thread management (Thread library)
 
-### Thread management
-
+Next, we had to create a thread library by creating our own TCB and completing each thread 
+function defined in uthread.h. We decided to do the TCB first to determine what each thread 
+would need as it went through its life cycle, since that's also what the libuthread functions
+would have to recieve and manipulate as parameters. We first added basic essentials like the 
+thread context and the TID, and added on the rest as the project proceeded and more needs 
+became apparent. Several flags we also included to help with debugging.
 
 ### Preemption 
