@@ -35,7 +35,9 @@ void test_queue_simple(void)
     q = queue_create();
     queue_enqueue(q, &data);
     queue_dequeue(q, (void**)&ptr);
+    TEST_ASSERT(queue_length(q) == 0);
     TEST_ASSERT(ptr == &data);
+    
 }
 
 void test_queue_delete(void)
