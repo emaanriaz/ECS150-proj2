@@ -61,7 +61,8 @@ int queue_enqueue(queue_t queue, void *data)
 
 int queue_dequeue(queue_t queue, void **data)
 {
-    if(queue == NULL || queue->head == NULL || queue->head->data == NULL){
+    if(queue == NULL || queue->head->data == NULL){
+        printf("queue empty");
         return -1;
     }
     
@@ -72,12 +73,12 @@ int queue_dequeue(queue_t queue, void **data)
     if(queue->head == NULL){
         queue->tail = NULL;
         queue->length = 0;
+    } else {
+	queue->length--;
     }
-    else{
-        queue->length--;
-        free(temp_head);
-    }
-    return 0;
+    
+    free(temp_head);
+    return -1;
 }
 
 
