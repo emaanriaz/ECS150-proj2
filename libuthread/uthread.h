@@ -104,15 +104,4 @@ void uthread_exit(int retval);
  */
 int uthread_join(uthread_t tid, int *retval);
 
-//TCB struct: contains all of TCB's nessesary info
-typedef struct {
-  uthread_t threadID;              //thread ID (TID)
-  uthread_ctx_t *threadctx;        //thread's context
-  void *stackptr;                  //stack pointer
-  uthread_func_t threatFunc;       //thread's function
-  int threadstatus;                //thread status (ready, running or blocked)
-  
-  //plus more stuff that will be added later
-} TCB;
-
 #endif /* _THREAD_H */
