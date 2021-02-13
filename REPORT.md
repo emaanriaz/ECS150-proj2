@@ -49,12 +49,16 @@ well (a critical step to allow the threads to be mapped by the TIDs properly).
 2. Stop: To properly stop the library's execution, all the queues need to be destroyed 
 successfully, so we decided to use the destruction's success (or lack thereof) to decide what
 to return. The 3 local variables should all be 0 when the queues are successfully destroyed,
-a fact we used via a mathmatical statement as the condition for an if-else statement decide 
-whether to return 0 or -1. 
+so we decided to add them up and compare the sum to 0 as the condition for an if-else statement 
+to decide what to return. 
 
 3. Create:
 
-4. Yield: 
+4. Yield: The last thread must make way for the next thread and placed in the ready queue, 
+so we used a same function as self to get the former and put it in its place. Initially we 
+decided to simply yield to the next thread in the ready queue (the most intuitive decision),
+but when scehduling issues appeared, we decided to write a dedicated scheduler function 
+(described in a section further down the report).
 
 5. Self: By far the simplest function in a long and extremely challenging program, it simply
 calls a function we made ourselves to get the running TID. (Admittedly we could have made it
@@ -68,3 +72,7 @@ In addition, over the course of the function, we added several of our own functi
 uthread.c to help simplify writing repeated but important instructions in uthread:
 
 ### Preemption 
+
+### Recommendations for the future
+
+Even when compared to the first project, 
