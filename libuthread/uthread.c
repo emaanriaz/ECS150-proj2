@@ -47,7 +47,7 @@ static     uthread_t     running_tid ;
 
 static void put_into_free_tid_queue(uthread_t  tid) {
     
-    printf("DEBUG: put tid %0d into free tid llist  \n", tid) ;
+    //printf("DEBUG: put tid %0d into free tid llist  \n", tid) ;
     // set state
     // free stack space
     uthread_ctx_destroy_stack(tcb_array[tid].stack) ;
