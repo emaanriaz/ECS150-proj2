@@ -52,7 +52,12 @@ to return. The 3 local variables should all be 0 when the queues are successfull
 so we decided to add them up and compare the sum to 0 as the condition for an if-else statement 
 to decide what to return. 
 
-3. Create:
+3. Create: This would prove to be a fairly sequential program, as our plan simply called for 
+the thread to be created and have it's various TCB contents initialized. We decided to get 
+the TID from the free tid queue (later adding a check to see whether there were any TIDs 
+still availible) before initializing the flags. The returning value for this function was 
+determined in a similar manner that it was determined for uthread_stop (to make things more
+consistent), with the out_of_tid and ctx_init_fail flags, respectively.
 
 4. Yield: The last thread must make way for the next thread and placed in the ready queue, 
 so we used a same function as self to get the former and put it in its place. Initially we 
@@ -69,7 +74,7 @@ directly return the running TID, but time was getting a bit short, so this wasn'
 7. Join:
 
 In addition, over the course of the function, we added several of our own functions in 
-uthread.c to help simplify writing repeated but important instructions in uthread:
+uthread.c to help simplify writing repeated but important instructions in uthread.c:
 
 put_into_free_tid_queue: This function was intended to recycle the threads of TIDs that 
 finished by putting them back into the free tid queue, which is done after destroying the
@@ -81,19 +86,28 @@ put_into_zombie_queue: Same as above, but for the zombie queue
 
 get_from_ready_queue: Dequeues a thread out of the running queue and returns it. 
 
-get_tid_out_of_zombie_queue: 
+get_tid_out_of_zombie_queue: If a thread is collected, it's no longer a zombie, and its
+TID is free to be used by other threads. This need is fulfilled by this function, which 
+raises an exit flag to indicate that the thread is done, and removes the thread from
+the zombie queue accordingly. 
 
 get_running_tid: Gets the runnning thread's TID by calling get_running(TID).
 
-schedule_next: This is by far the most 
+schedule_next: This is by far the most complex self-created program in uthread.c we 
+wrote, and it was created to schedule the next running thread in tricky situations 
+that arose. It simply prints out a message indicating the test program's completion
+if the ready queue is 0 (thus also acting as a check to see if there's anything 
+left in that queue, and as an indicator of test program completion). However, if there's 
+still something in the ready queue, the "else" statement handles the scheduling 
+situations involving the currently running thread and next thread in the reay queue.
 
 In addition to using GDB and tracing out the output, we put various printouts throughout 
 the program (especially uthread.c) in order to debug the program. These printouts were 
-placed strategically thoughout the program to display important values, especially 
-the currently running thread, what was coming in and out of the queues, and various 
-debugging flags. While all of them were removed while cleaning out the code, it's safe to 
-say that we couldn't have gotten this far without them, especially on resolving various
-segfaults and correcting incorrect pointer syntax.
+placed strategically thoughout the program, especially in the self-created functions, 
+to display important values, especially the currently running thread, what was coming in 
+and out of the queues, and various debugging flags. While all of them were removed while 
+cleaning out the code, it's safe to say that we couldn't have gotten this far without them, 
+especially on resolving various segfaults and correcting incorrect pointer syntax.
 
 ### Preemption 
 
@@ -103,4 +117,4 @@ part, so I'll explain my thought process and my plans for what I *tried* to do i
 ### Recommendations for the future
 
 Even when compared to the first project, the second project was a significant challenge 
-for us, even when compared to past assignments outside of this class.
+for us, even when compared to past assignments outside of this class. I reccommend that 
