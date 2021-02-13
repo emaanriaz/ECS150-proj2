@@ -46,7 +46,11 @@ which includes the queues of the ready and zombie states as well as the queue wi
 TIDs. So we decided to initialize the queues right there and map the TIDs in the TID map as 
 well (a critical step to allow the threads to be mapped by the TIDs properly). 
 
-2. Stop: To properly stop the library's execution, all the queues need to be dest
+2. Stop: To properly stop the library's execution, all the queues need to be destroyed 
+successfully, so we decided to use the destruction's success (or lack thereof) to decide what
+to return. The 3 local variables should all be 0 when the queues are successfully destroyed,
+a fact we used via a mathmatical statement as the condition for an if-else statement decide 
+whether to return 0 or -1. 
 
 3. Create:
 
@@ -55,7 +59,9 @@ well (a critical step to allow the threads to be mapped by the TIDs properly).
 5. Self: By far the simplest function in a long and extremely challenging program, it simply
 calls a function we made ourselves to get the running TID. (Admittedly we could have made it
 directly return the running TID, but time was getting a bit short, so this wasn't done.)
+
 6. Exit:
+
 7. Join:
 
 In addition, over the course of the function, we added several of our own functions in 
