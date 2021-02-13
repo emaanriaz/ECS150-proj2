@@ -16,13 +16,14 @@
 #include <uthread.h>
 #include "unistd.h"
 
-long int i ;
+int  i ;
+double sum ;
 
 int thread3(void)
 {
 	uthread_yield();
 	while (1) {
-	    i++ ;
+	    for(i = 0 ; i < 10000000; i++) sum = i + sum  ;
 	    printf("thread%d\n", uthread_self());
 	    sleep(3) ;
 	}
@@ -34,7 +35,7 @@ int thread2(void)
 	uthread_create(thread3);
 	uthread_yield();
 	while (1) {
-	    i++ ;
+	    for(i = 0 ; i < 10000000; i++) sum = i + sum  ;
 	    printf("thread%d\n", uthread_self());
 	    sleep(3) ;
 	}    
@@ -46,7 +47,7 @@ int thread1(void)
 	uthread_create(thread2);
 	uthread_yield();
 	while (1) {
-	    i++ ;
+	    for(i = 0 ; i < 10000000; i++) sum = i + sum  ;
 	    printf("thread%d\n", uthread_self());
 	    sleep(3) ;
 	}
