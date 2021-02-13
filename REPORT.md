@@ -42,14 +42,23 @@ array.
 The method by how we implemented each uthread function is below:
 
 1. Start: This function has to start up everything the library needs to run the uthreads, 
-2. Stop: 
+which includes the queues of the ready and zombie states as well as the queue with the free 
+TIDs. So we decided to initialize the queues right there and map the TIDs in the TID map as 
+well (a critical step to allow the threads to be mapped by the TIDs properly). 
+
+2. Stop: To properly stop the library's execution, all the queues need to be dest
+
 3. Create:
+
 4. Yield: 
-5. Self:
+
+5. Self: By far the simplest function in a long and extremely challenging program, it simply
+calls a function we made ourselves to get the running TID. (Admittedly we could have made it
+directly return the running TID, but time was getting a bit short, so this wasn't done.)
 6. Exit:
 7. Join:
 
 In addition, over the course of the function, we added several of our own functions in 
-uthread.c to help simplify writing repeated but important instructions:
+uthread.c to help simplify writing repeated but important instructions in uthread:
 
 ### Preemption 
