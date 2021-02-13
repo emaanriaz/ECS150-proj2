@@ -72,10 +72,15 @@ In addition, over the course of the function, we added several of our own functi
 uthread.c to help simplify writing repeated but important instructions in uthread:
 
 put_into_free_tid_queue: 
+
 put_into_ready_queue: 
+
 put_into_zombie_queue: same as above, but for the zombie queue
+
 get_from_ready_queue
+
 get_tid_out_of_zombie_queue
+
 get_running_tid
 
 ### Preemption 
