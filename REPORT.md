@@ -73,10 +73,12 @@ directly return the running TID, but time was getting a bit short, so this wasn'
 current running thread by doing the usual procedures (flagging it as azombie thread, 
 collecting the return value, and putting it in the zombie queue) but it turns out we also 
 needed to see if the thread was joined by another process. So we added an if statement to 
-account for that, 
+account for that, in which any such threads are . 
 
 7. Join: For this function, we had to account for if the joined thread was alive or dead. 
-For the latter situation, we decided to 
+For the latter situation, we decided to implement something similar to the first part
+of exit, . For the latter situation, we join it with another thread (checking to see if
+it joined itself) and 
 
 In addition, over the course of the function, we added several of our own functions in 
 uthread.c to help simplify writing repeated but important instructions in uthread.c:
