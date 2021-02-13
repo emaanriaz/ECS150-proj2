@@ -69,9 +69,14 @@ but when scheduling issues appeared, we decided to write a dedicated scheduler f
 calls a function we made ourselves to get the running TID. (Admittedly we could have made it
 directly return the running TID, but time was getting a bit short, so this wasn't done.)
 
-6. Exit: Through our 
+6. Exit: This function was initially thought to be simple, in that we simply had to end the 
+current running thread by doing the usual procedures (flagging it as azombie thread, 
+collecting the return value, and putting it in the zombie queue) but it turns out we also 
+needed to see if the thread was joined by another process. So we added an if statement to 
+account for that, 
 
-7. Join:
+7. Join: For this function, we had to account for if the joined thread was alive or dead. 
+For the latter situation, we decided to 
 
 In addition, over the course of the function, we added several of our own functions in 
 uthread.c to help simplify writing repeated but important instructions in uthread.c:
@@ -99,7 +104,7 @@ that arose. It simply prints out a message indicating the test program's complet
 if the ready queue is 0 (thus also acting as a check to see if there's anything 
 left in that queue, and as an indicator of test program completion). However, if there's 
 still something in the ready queue, the "else" statement handles the scheduling 
-situations involving the currently running thread and next thread in the reay queue.
+situations involving the currently running thread and next thread in the ready queue.
 
 In addition to using GDB and tracing out the output, we put various printouts throughout 
 the program (especially uthread.c) in order to debug the program. These printouts were 
