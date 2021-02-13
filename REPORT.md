@@ -57,7 +57,7 @@ to decide what to return.
 4. Yield: The last thread must make way for the next thread and placed in the ready queue, 
 so we used a same function as self to get the former and put it in its place. Initially we 
 decided to simply yield to the next thread in the ready queue (the most intuitive decision),
-but when scehduling issues appeared, we decided to write a dedicated scheduler function 
+but when scheduling issues appeared, we decided to write a dedicated scheduler function 
 (described in a section further down the report).
 
 5. Self: By far the simplest function in a long and extremely challenging program, it simply
