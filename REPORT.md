@@ -123,7 +123,14 @@ For the sake of time, I can only say I couldn't get the timer and interrupt righ
 part, so I'll explain my thought process and my plans for what I *tried* to do instead.
 
 Hm... it seems I'm out of time. I can only say that the timer only works at a certain
-tiem interval.
+time interval.
+
+Test Program: I have 3 threads that act as loops and print out statements for each 
+iteration to announce their presence. Thread 1 creates thread 2, and thread 2 creates
+thread 3. If the preempts work correctly, one should be able to see the threads 
+alternate among each other. (The program works on an infinite loop, but can be easily 
+stopped by control-c, and only with an infinite loop can we see a real-time timer 
+actually have an effect.)
 
 ### Recommendations for the future
 
