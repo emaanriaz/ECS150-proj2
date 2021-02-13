@@ -28,12 +28,12 @@ typedef struct {
     void                *stack ;
 } tcb_t ;
 
-static     tcb_t         tcb_array[TCB_POOL_SIZE+1] ;
-static     uthread_t     tid_map[TCB_POOL_SIZE+1] ;
-static     queue_t       free_tid_queue ;
-static     queue_t       ready_queue ;
-static     queue_t       zombie_queue ;
-static     uthread_t     running_tid ;
+static  tcb_t       tcb_array[TCB_POOL_SIZE+1] ;
+static  uthread_t   tid_map[TCB_POOL_SIZE+1] ;
+static  queue_t     free_tid_queue ;
+static  queue_t     ready_queue ;
+static  queue_t     zombie_queue ;
+static  uthread_t   running_tid ;
 
 static void put_into_free_tid_queue(uthread_t  tid) {
     // set state and free stack space
@@ -95,9 +95,9 @@ int uthread_start(int preempt)
 {
     uthread_t tid ;
     // setup free tid queue
-    free_tid_queue = queue_create() ;
-    ready_queue    = queue_create() ;
-    zombie_queue   = queue_create() ;
+    free_tid_queue  = queue_create() ;
+    ready_queue     = queue_create() ;
+    zombie_queue    = queue_create() ;
     // put tid_in
     for (tid = 0 ; tid < TCB_POOL_SIZE; tid ++ ) {
         tid_map[tid] = tid ;
@@ -107,17 +107,17 @@ int uthread_start(int preempt)
     // initial tcb array fields
     for (tid = 0 ; tid < TCB_POOL_SIZE; tid ++) {
         tcb_array[tid].retval_ptr = (void *) & tcb_array[tid].retval ;
-        tcb_array[tid].tid   = tid ;
-        tcb_array[tid].state = NOT_USED ;
-        tcb_array[tid].valid = 0 ;
+        tcb_array[tid].tid      = tid ;
+        tcb_array[tid].state    = NOT_USED ;
+        tcb_array[tid].valid    = 0 ;
     }
     
     //  Real Main thread
     tid = get_from_free_tid_queue() ;
-    tcb_array[tid].tid         = tid ;
-    tcb_array[tid].state       = READY ;
-    tcb_array[tid].is_joined   = 0 ;
-    tcb_array[tid].joined_tid  = 0 ;
+    tcb_array[tid].tid          = tid ;
+    tcb_array[tid].state        = READY ;
+    tcb_array[tid].is_joined    = 0 ;
+    tcb_array[tid].joined_tid   = 0 ;
     uthread_ctx_init(&tcb_array[tid].uctx, uthread_ctx_alloc_stack(), NULL) ;
     running_tid = tid ;
     // Create a scheduling main thread
@@ -144,17 +144,17 @@ int uthread_stop(void)
 
 int uthread_create(uthread_func_t func)
 {
-    uthread_t          tid ;
-    int                out_of_tid ;
-    int                ctx_init_fail ;
+    uthread_t   tid ;
+    int         out_of_tid ;
+    int         ctx_init_fail ;
     
     tid = get_from_free_tid_queue() ;
     out_of_tid = (tid == TCB_POOL_SIZE) ? 1 : 0 ;
     ctx_init_fail = uthread_ctx_init(&tcb_array[tid].uctx, uthread_ctx_alloc_stack(), func) ;
     
-    tcb_array[tid].valid      = 1 ;
-    tcb_array[tid].state      = READY ;
-    tcb_array[tid].is_joined  = 0 ;
+    tcb_array[tid].valid        = 1 ;
+    tcb_array[tid].state        = READY ;
+    tcb_array[tid].is_joined    = 0 ;
     put_into_ready_queue(tid) ;
     
     if ((out_of_tid * ctx_init_fail == 0)){
@@ -180,11 +180,12 @@ uthread_t uthread_self(void)
 
 void uthread_exit(int retval)
 {
-    uthread_t       tid ;
-    uthread_t       join_tid ;
+    uthread_t tid ;
+    uthread_t join_tid ;
+    
     tid = get_running_tid() ;
-    tcb_array[tid].state = ZOMBIE ;
-    tcb_array[tid].retval = retval ;
+    tcb_array[tid].state    = ZOMBIE ;
+    tcb_array[tid].retval   = retval ;
     put_into_zombie_queue(tid) ;
     
     if (tcb_array[tid].is_joined) { // This tid is joined by another tid
@@ -197,7 +198,7 @@ void uthread_exit(int retval)
 
 int uthread_join(uthread_t tid, int *retval)
 {
-    uthread_t   joining_tid ;
+    uthread_t joining_tid ;
     joining_tid = get_running_tid() ;
 
     if (tcb_array[tid].state == ZOMBIE) {   // Joined tid is dead already.
@@ -206,8 +207,8 @@ int uthread_join(uthread_t tid, int *retval)
         tcb_array[tid].state = EXITED ;
         put_into_free_tid_queue(tid) ;
     } else {                                // Joined tid is not dead yet.
-        tcb_array[tid].is_joined         = 1  ;
-        tcb_array[tid].joined_tid        = joining_tid ;
+        tcb_array[tid].is_joined    = 1  ;
+        tcb_array[tid].joined_tid   = joining_tid ;
         
         if (tid == joining_tid) {
         
