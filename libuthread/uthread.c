@@ -65,12 +65,12 @@ uthread_t  get_from_free_tid_queue() {
 
 void put_into_ready_queue(uthread_t tid) {
     
-    printf("DEBUG: put tid %0d into ready_queue.\n", tid) ;
+    //printf("DEBUG: put tid %0d into ready_queue.\n", tid) ;
     queue_enqueue(ready_queue, (void *) &tid_map[tid]) ;
 }
 
 void put_into_zombie_queue(uthread_t tid) {   
-    printf("DEBUG: put tid %0d into zombie_queue. \n", tid) ;
+    //printf("DEBUG: put tid %0d into zombie_queue. \n", tid) ;
     queue_enqueue(zombie_queue, (void *) &tid_map[tid]) ;		  
 }
 
@@ -78,7 +78,7 @@ uthread_t get_from_ready_queue() {
     uthread_t *tid_ptr ;
     queue_dequeue(ready_queue, (void **) &tid_ptr) ;
     //  tid_ptr = (uthread_t *) tid_ptr ;
-    printf("DEBUG: get tid %0d from ready_queue.\n", (*tid_ptr)) ;
+    //printf("DEBUG: get tid %0d from ready_queue.\n", (*tid_ptr)) ;
     return(*tid_ptr) ;
 }
 
@@ -97,7 +97,7 @@ static void schedule_next (void) {
 
     if (queue_length(ready_queue) == 0) {
 	sleep(2) ;
-	printf ("DEBUG: No more threads, stop.\n ") ;
+	//printf ("DEBUG: No more threads, stop.\n ") ;
 	//	uthread_ctx_switch(&tcb_array[0].uctx, &main_uctx) ;
     } else {
 	previous_tid   = get_running_tid() ;
@@ -105,11 +105,11 @@ static void schedule_next (void) {
 	while (tcb_array[next_tid].state != READY ||
 	       (next_tid == 0 && queue_length(ready_queue) != 0) 
 	       ) {
-	    printf("DEBUG: next_id %0d is not READY. Get next one.\n", next_tid) ;
+	    //printf("DEBUG: next_id %0d is not READY. Get next one.\n", next_tid) ;
 	    put_into_ready_queue(next_tid) ;
 	    next_tid = get_from_ready_queue() ;
 	}
-	printf("DEBUG: Switch from tid %0d to tid %0d \n", previous_tid, next_tid) ;
+	//printf("DEBUG: Switch from tid %0d to tid %0d \n", previous_tid, next_tid) ;
 	//	uthread_ctx_switch(  NULL, &tcb_array[next_tid].uctx) ;
 	if (previous_tid != next_tid) {
 	    running_tid = next_tid ;
@@ -125,7 +125,7 @@ int uthread_start(int preempt)
 {
     uthread_t tid ;
 
-    printf("DEBUG: Start uthread library with preempt %0d", preempt) ;
+   // printf("DEBUG: Start uthread library with preempt %0d", preempt) ;
     
     // setup free tid queue
     free_tid_queue = queue_create() ;
@@ -171,9 +171,9 @@ int uthread_stop(void)
     while (queue_length(ready_queue) > 0) {
 	printf("DEBUG: Unfinished threads\n") ;
 	schedule_next() ;
-	printf("queue_length = %0d", queue_length(ready_queue)) ;
+	//printf("queue_length = %0d", queue_length(ready_queue)) ;
     }
-    printf("DEBUG: uthread stops.\n") ;
+    //printf("DEBUG: uthread stops.\n") ;
      df = queue_destroy(free_tid_queue) ;
      dr = queue_destroy(ready_queue) ;
      dz = queue_destroy(zombie_queue) ;
@@ -203,7 +203,7 @@ int uthread_create(uthread_func_t func)
     tcb_array[tid].state      = READY ;
     tcb_array[tid].is_joined  = 0 ;
 
-    printf("DEBUG: Thread tid %0d is created.\n", tid) ;
+    //printf("DEBUG: Thread tid %0d is created.\n", tid) ;
     put_into_ready_queue(tid) ;
     
     if ( (out_of_tid * ctx_init_fail == 0) )
@@ -217,7 +217,7 @@ void uthread_yield(void)
     uthread_t    running_tid ;
     
     running_tid = get_running_tid() ;
-    printf("DEBUG: Running tid %0d yield. \n", running_tid) ; 
+    //printf("DEBUG: Running tid %0d yield. \n", running_tid) ; 
     put_into_ready_queue(running_tid) ;
     schedule_next() ;
 
@@ -234,7 +234,7 @@ void uthread_exit(int retval)
     uthread_t       join_tid ;
     
     tid = get_running_tid() ;
-    printf("DEBUG: Thread tid %0d exits with retval value %0d.\n", tid, retval) ;
+    //printf("DEBUG: Thread tid %0d exits with retval value %0d.\n", tid, retval) ;
     tcb_array[tid].state = ZOMBIE ;
     tcb_array[tid].retval = retval ;
     put_into_zombie_queue(tid) ;
@@ -244,7 +244,7 @@ void uthread_exit(int retval)
 	tcb_array[join_tid].state = READY ;
 	//      retval of join process had to be added
 	//	tcb_array[join_tid].
-	printf("DEBUG: Thread tid %0d is UNBLOCKED.\n", join_tid) ; 
+	//printf("DEBUG: Thread tid %0d is UNBLOCKED.\n", join_tid) ; 
     } 
     schedule_next() ;
 }
@@ -268,10 +268,10 @@ int uthread_join(uthread_t tid, int *retval)
 	//      retval of join process had to be added
 	//	retval = tcb_array[tid].joined_tid_retval ;
 	if (tid == joining_tid) {
-	    printf ("DEBUG: Same thread %0d, %0d, can't block itself.\n", tid, joining_tid) ;
+	//    printf ("DEBUG: Same thread %0d, %0d, can't block itself.\n", tid, joining_tid) ;
 	} else {
 	    tcb_array[joining_tid].state = BLOCKED ;
-	    printf("DEBUG: Running thread tid %0d joins thread %0d return value %p.\n", joining_tid, tid, retval) ;
+	  //  printf("DEBUG: Running thread tid %0d joins thread %0d return value %p.\n", joining_tid, tid, retval) ;
 	}
 	put_into_ready_queue(running_tid) ;
        	schedule_next() ;
