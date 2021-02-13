@@ -15,72 +15,23 @@
  */
 #define HZ 100
 
-extern void uthread_intr_proc(int) ;
-
-static struct sigaction sigact ;
-static sigset_t         orig_sigmask ;
-
-static struct itimerval   utimer ;
-
 void preempt_start(void)
 {
-
-    // setup signal masks
-    sigact.sa_sigaction = &uthread_intr_proc ;
-    sigact.sa_flags     = SA_RESTART ;
-
-    // setup timers
-    utimer.it_value.tv_sec   = 0 ;
-    utimer.it_value.tv_usec  = 10 ;
-    utimer.it_interval = utimer.it_value ;
-
-    // register timer
-    if (setitimer(ITIMER_VIRTUAL, &utimer, NULL) != 0) {
-	printf("Setting timer failed !") ;
-    }
-
-    // register signal handler
-    sigprocmask(SIG_UNBLOCK, NULL, &orig_sigmask) ;
-    if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
-	printf("Registering sigact setup failed !") ;
-    }
-
+	/* TODO */
 }
 
 void preempt_stop(void)
 {
-
-    // unset signal mask
-    sigact.sa_mask = orig_sigmask ;
-    if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
-	printf("Registering sigact setup failed !") ;
-    }
-    printf("Unset intr mask\n") ;
-
-    // disable timer
-    utimer.it_value.tv_sec   = 0 ;
-    utimer.it_value.tv_usec  = 0 ;
-    utimer.it_interval = utimer.it_value ;
-    
-    if (setitimer(ITIMER_VIRTUAL, &utimer, NULL) != 0) {
-	printf("UnSetting timer failed !") ;
-    }
+	/* TODO */
 }
 
 void preempt_enable(void)
 {
-    // set mask to enable mask
-    sigaddset(&sigact.sa_mask, SIGVTALRM) ;
-    if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
-	printf("preempt_enable failed") ;
-    }
-       
+	/* TODO */
 }
 
 void preempt_disable(void)
 {
-    // set mask to ignore signal
-    if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
-	printf("preempt_enable failed") ;
-    }   
+	/* TODO */
 }
+
