@@ -137,7 +137,7 @@ int uthread_start(int preempt)
 	put_into_free_tid_queue(tid) ;
     }
     
-    printf("DEBUG: Start uthread stops.\n") ;
+    //printf("DEBUG: Start uthread stops.\n") ;
     // initial tcb array fields
     for (tid = 0 ; tid < TCB_POOL_SIZE; tid ++) {
        	tcb_array[tid].retval_ptr = (void *) & tcb_array[tid].retval ;
@@ -169,7 +169,7 @@ int uthread_stop(void)
     int df, dr, dz ;
        
     while (queue_length(ready_queue) > 0) {
-	printf("DEBUG: Unfinished threads\n") ;
+	//printf("DEBUG: Unfinished threads\n") ;
 	schedule_next() ;
 	//printf("queue_length = %0d", queue_length(ready_queue)) ;
     }
