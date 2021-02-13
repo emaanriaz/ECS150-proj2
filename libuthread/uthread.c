@@ -177,7 +177,7 @@ int uthread_stop(void)
      df = queue_destroy(free_tid_queue) ;
      dr = queue_destroy(ready_queue) ;
      dz = queue_destroy(zombie_queue) ;
-     if (df * dr * dz == 0) {
+     if (df + dr + dz == 0) {
 	 return 0 ;
      } else {
 	 return -1;
