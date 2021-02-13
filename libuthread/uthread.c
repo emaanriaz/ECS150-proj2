@@ -332,3 +332,7 @@ int uthread_join(uthread_t tid, int *retval)
     }
 
     turn_on_preempt() ;
+	
+	return (0) ;
+}
+
