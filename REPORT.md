@@ -69,7 +69,7 @@ but when scheduling issues appeared, we decided to write a dedicated scheduler f
 calls a function we made ourselves to get the running TID. (Admittedly we could have made it
 directly return the running TID, but time was getting a bit short, so this wasn't done.)
 
-6. Exit: 
+6. Exit: Through our 
 
 7. Join:
 
