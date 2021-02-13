@@ -14,7 +14,7 @@
 #include "unistd.h"
 #include "queue.h"
 
-#define TCB_POOL_SIZE 8
+#define TCB_POOL_SIZE 4096
 typedef void (*func_t) ();
 
 enum thread_state {NOT_USED, RUNNING , BLOCKED, ZOMBIE , READY, EXITED} ;
