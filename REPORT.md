@@ -69,7 +69,7 @@ but when scheduling issues appeared, we decided to write a dedicated scheduler f
 calls a function we made ourselves to get the running TID. (Admittedly we could have made it
 directly return the running TID, but time was getting a bit short, so this wasn't done.)
 
-6. Exit:
+6. Exit: 
 
 7. Join:
 
@@ -118,3 +118,5 @@ part, so I'll explain my thought process and my plans for what I *tried* to do i
 
 Even when compared to the first project, the second project was a significant challenge 
 for us, even when compared to past assignments outside of this class. I reccommend that 
+more explanation of key function calls (like uthread_get_ctx and uthread_get_ctx) be given
+to future students. 
