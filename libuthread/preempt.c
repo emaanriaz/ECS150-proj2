@@ -29,7 +29,7 @@ void preempt_start(void)
     sigact.sa_handler = uthread_intr_proc ;
     sigact.sa_flags = 0 ;
     //    sigact.sa_flags     = SA_RESTART ;
-
+    /*
     // setup timers
     utimer.it_value.tv_sec   = 0 ;
     utimer.it_value.tv_usec  = 10000 ; // microsec to sec
@@ -40,7 +40,7 @@ void preempt_start(void)
     if (setitimer(ITIMER_VIRTUAL, &utimer, NULL) != 0) {
 	printf("Setting timer failed !") ;
     }
-
+    */
     // register signal handler
     sigemptyset(&sigact.sa_mask) ;
     if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
@@ -71,19 +71,26 @@ void preempt_stop(void)
 
 void preempt_enable(void)
 {
-    // set mask to enable mask
-    sigaddset(&sigact.sa_mask, SIGVTALRM) ;
-    if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
-	printf("preempt_enable failed") ;
+     // disable timer
+    utimer.it_value.tv_sec   = 0 ;
+    utimer.it_value.tv_usec  = 1000000 / HZ ;
+    utimer.it_interval = utimer.it_value ;
+    
+    if (setitimer(ITIMER_VIRTUAL, &utimer, NULL) != 0) {
+	printf("UnSetting timer failed !") ;
     }
        
 }
 
 void preempt_disable(void)
 {
-    // set mask to ignore signal
-    //   sigact.sa_mask = orig_sigmask ;
-    if (sigaction(SIGVTALRM, &sigact, NULL) != 0) {
-	printf("preempt_enable failed") ;
-    }   
+     // disable timer
+    utimer.it_value.tv_sec   = 0 ;
+    utimer.it_value.tv_usec  = 0 ;
+    utimer.it_interval = utimer.it_value ;
+    
+    if (setitimer(ITIMER_VIRTUAL, &utimer, NULL) != 0) {
+	printf("UnSetting timer failed !") ;
+    }
+
 }
