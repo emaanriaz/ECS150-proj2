@@ -157,7 +157,7 @@ int uthread_create(uthread_func_t func)
     tcb_array[tid].is_joined    = 0 ;
     put_into_ready_queue(tid) ;
     
-    if ((out_of_tid * ctx_init_fail == 0)){
+    if ((out_of_tid + ctx_init_fail == 0)){
         return  tid ;
     }
     else {
