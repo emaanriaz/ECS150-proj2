@@ -160,7 +160,7 @@ int uthread_create(uthread_func_t func)
     if ((out_of_tid * ctx_init_fail == 0)){
         return  tid ;
     }
-    else{
+    else {
         return -1;
     }
 }
@@ -182,7 +182,6 @@ void uthread_exit(int retval)
 {
     uthread_t       tid ;
     uthread_t       join_tid ;
-    
     tid = get_running_tid() ;
     tcb_array[tid].state = ZOMBIE ;
     tcb_array[tid].retval = retval ;
