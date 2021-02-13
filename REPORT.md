@@ -79,7 +79,7 @@ put_into_ready_queue: Puts the thread parameter into the ready queue
 
 put_into_zombie_queue: Same as above, but for the zombie queue
 
-get_from_ready_queue: Dequeues a thread out of the running queue and reutrn it. 
+get_from_ready_queue: Dequeues a thread out of the running queue and returns it. 
 
 get_tid_out_of_zombie_queue: 
 
@@ -87,7 +87,13 @@ get_running_tid: Gets the runnning thread's TID by calling get_running(TID).
 
 schedule_next: This is by far the most 
 
-In addition to using GDB and tracing out the output 
+In addition to using GDB and tracing out the output, we put various printouts throughout 
+the program (especially uthread.c) in order to debug the program. These printouts were 
+placed strategically thoughout the program to display important values, especially 
+the currently running thread, what was coming in and out of the queues, and various 
+debugging flags. While all of them were removed while cleaning out the code, it's safe to 
+say that we couldn't have gotten this far without them, especially on resolving various
+segfaults and correcting incorrect pointer syntax.
 
 ### Preemption 
 
