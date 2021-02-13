@@ -120,7 +120,10 @@ especially on resolving various segfaults and correcting incorrect pointer synta
 ### Preemption 
 
 For the sake of time, I can only say I couldn't get the timer and interrupt right for this 
-part, so I'll explain my thought process and my plans for what I *tried* to do instead.  
+part, so I'll explain my thought process and my plans for what I *tried* to do instead.
+
+Hm... it seems I'm out of time. I can only say that the timer only works at a certain
+tiem interval.
 
 ### Recommendations for the future
 
