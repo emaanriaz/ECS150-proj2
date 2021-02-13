@@ -3,7 +3,7 @@ lib	:= libuthread
 objs	:= queue.o uthread.o context.o
 
 CC 	:= gcc
-CFLAGS	:= -Wall -Wextra -Werror -MMD
+CFLAGS	:= -Wall -Werror -MMD
 CFLAGS	+= -g
 
 ifneq ($(V),1)
