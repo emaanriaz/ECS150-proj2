@@ -71,20 +71,27 @@ directly return the running TID, but time was getting a bit short, so this wasn'
 In addition, over the course of the function, we added several of our own functions in 
 uthread.c to help simplify writing repeated but important instructions in uthread:
 
-put_into_free_tid_queue: 
+put_into_free_tid_queue: This function was intended to recycle the threads of TIDs that 
+finished by putting them back into the free tid queue, which is done after destroying the
+threads' stacks (as they are no longer needed).
 
-put_into_ready_queue: 
+put_into_ready_queue: put the thread parameter into the ready queue
 
 put_into_zombie_queue: same as above, but for the zombie queue
 
-get_from_ready_queue
+get_from_ready_queue: 
 
-get_tid_out_of_zombie_queue
+get_tid_out_of_zombie_queue: 
 
-get_running_tid
+get_running_tid: Gets the runnning thread's TID by calling get_running(TID)
+
+schedule_next: 
 
 ### Preemption 
 
+For the sake of time, I can only say I have completed the timer for this part. 
+
 ### Recommendations for the future
 
-Even when compared to the first project, 
+Even when compared to the first project, the second project was a significant challenge 
+for us, even when compared to past assignments outside of this class.
