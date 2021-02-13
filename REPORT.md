@@ -75,21 +75,24 @@ put_into_free_tid_queue: This function was intended to recycle the threads of TI
 finished by putting them back into the free tid queue, which is done after destroying the
 threads' stacks (as they are no longer needed).
 
-put_into_ready_queue: put the thread parameter into the ready queue
+put_into_ready_queue: Puts the thread parameter into the ready queue
 
-put_into_zombie_queue: same as above, but for the zombie queue
+put_into_zombie_queue: Same as above, but for the zombie queue
 
-get_from_ready_queue: 
+get_from_ready_queue: Dequeues a thread out of the running queue and reutrn it. 
 
 get_tid_out_of_zombie_queue: 
 
-get_running_tid: Gets the runnning thread's TID by calling get_running(TID)
+get_running_tid: Gets the runnning thread's TID by calling get_running(TID).
 
-schedule_next: 
+schedule_next: This is by far the most 
+
+In addition to using GDB and tracing out the output 
 
 ### Preemption 
 
-For the sake of time, I can only say I have completed the timer for this part. 
+For the sake of time, I can only say I couldn't get the timer and interrupt right for this 
+part, so I'll explain my thought process and my plans for what I *tried* to do instead.  
 
 ### Recommendations for the future
 
